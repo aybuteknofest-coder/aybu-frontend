@@ -1,0 +1,39 @@
+/* ========================================= */
+/* SPONSORLAR TASARIMI                     */
+/* ========================================= */
+.sponsors-grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 30px; padding: 20px 0;
+}
+
+.sponsor-card {
+  background: white; border: 1px solid #eee; border-radius: 12px;
+  padding: 30px; text-align: center; box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+  transition: transform 0.3s ease, border-color 0.3s ease; display: flex;
+  flex-direction: column; align-items: center; justify-content: space-between; height: 320px;
+}
+
+.sponsor-card:hover {
+  transform: translateY(-5px); border-bottom: 5px solid #800000;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+}
+
+.sponsor-logo-wrapper {
+  width: 100%; height: 120px; display: flex;
+  align-items: center; justify-content: center; margin-bottom: 20px;
+}
+
+.sponsor-logo-wrapper img {
+  max-width: 100%; max-height: 100%; object-fit: contain;
+  transition: transform 0.3s ease;
+}
+
+.sponsor-card:hover .sponsor-logo-wrapper img { transform: scale(1.1); }
+.sponsor-card h3 { color: #002855; margin-bottom: 20px; font-size: 1.2rem; }
+
+.btn-visit {
+  background-color: transparent; color: #002855; border: 2px solid #002855;
+  padding: 10px 20px; border-radius: 30px; font-weight: bold; text-decoration: none;
+  transition: 0.3s; font-size: 0.9rem; width: 100%; display: block;
+}
+.btn-visit:hover { background-color: #002855; color: white; }

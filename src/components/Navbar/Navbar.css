@@ -1,0 +1,313 @@
+/* ========================================= */
+/* NAVBAR TASARIMI (MASAÜSTÜ)              */
+/* ========================================= */
+.navbar {
+  background: linear-gradient(90deg, #ffffff 0%, #ffffff 25%, #002855 50%, #002855 100%);
+  height: 80px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1rem;
+  position: relative;
+  z-index: 999;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+.navbar-brand {
+  display: flex;
+  align-items: center;
+  height: 100%; /* Navbar boyu kadar olsun */
+  padding-left: 10px;
+}
+
+.navbar-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 80px;
+  width: 100%;
+  max-width: 1200px;
+  padding: 0 20px;
+}
+
+/* Logo */
+.navbar-logo {
+  color: #002855 !important; 
+  text-decoration: none;
+  font-size: 1.4rem;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  font-weight: 800; /* Daha kalın font */
+  height: 100%;
+}
+.nav-logo-img {
+  height: 80px; /* Navbar ile aynı yükseklik (Tam otursun) */
+  width: auto;  /* Orantıyı koru */
+  object-fit: contain; /* Resmi kesmeden sığdır */
+  
+  /* Eğer logonda beyaz arka plan varsa, bunu silersek daha iyi durabilir.
+     Ama "arkası kare olsun" dediğin için şimdilik böyle bırakıyoruz. */
+  background-color: #ffffff; 
+  padding: 5px; /* Kenarlardan çok hafif boşluk */
+}
+
+.menu-icon { display: none; }
+
+/* Menü Linkleri */
+.nav-menu {
+  display: flex;
+  list-style: none;
+  text-align: center;
+  margin: 0;
+  padding: 0;
+  gap: 10px;
+}
+
+.nav-item {
+  position: relative;
+  display: flex;
+  align-items: center;
+  height: 80px;
+}
+
+/* Link Animasyonu */
+.nav-links {
+  color: #e0e0e0;
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  padding: 0 1rem;
+  height: 100%;
+  cursor: pointer;
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.nav-links:hover {
+  color: #fff;
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.7);
+}
+
+.nav-links::after {
+  content: '';
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  width: 0%;
+  height: 3px;
+  background-color: #ffd700;
+  transition: all 0.3s ease-in-out;
+  transform: translateX(-50%);
+  border-radius: 2px;
+}
+
+.nav-links:hover::after { width: 70%; }
+
+/* Dropdown (Masaüstü) */
+.dropdown-content {
+  display: none;
+  position: absolute;
+  top: 80px;
+  left: 0;
+  background-color: #fff;
+  min-width: 200px;
+  box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+  border-top: 4px solid #800000;
+  z-index: 1000;
+  border-radius: 0 0 5px 5px;
+}
+
+.dropdown-content a {
+  color: #002855;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+  text-align: left;
+  border-bottom: 1px solid #eee;
+  font-size: 0.95rem;
+}
+
+.dropdown-content a:hover {
+  background-color: #f8f9fa;
+  color: #800000;
+  padding-left: 20px;
+}
+
+@media screen and (min-width: 961px) {
+  .nav-item:hover .dropdown-content { display: block; }
+}
+
+/* Üye Ol Butonu */
+.nav-links-mobile-btn {
+  background-color: #800000;
+  color: white;
+  padding: 8px 20px;
+  border-radius: 4px;
+  transition: 0.3s;
+  font-weight: bold;
+}
+.nav-links-mobile-btn:hover { background-color: #a30000; }
+
+/* ========================================= */
+/* MOBİL UYUMLULUK (Navbar)                */
+/* ========================================= */
+@media screen and (max-width: 960px) {
+  .menu-icon {
+    display: block;
+    position: absolute;
+    top: 0;
+    right: 0;
+    transform: translate(-100%, 60%);
+    cursor: pointer;
+    z-index: 1001;
+    color: white;
+  }
+
+  .nav-menu {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100vh;
+    position: absolute;
+    top: 80px;
+    left: auto;
+    right:-100%;
+    opacity: 0;
+    transition: all 0.5s ease;
+    background-color: #001f3f;
+    overflow-y: auto;
+    padding-bottom: 150px;
+  }
+
+  .nav-menu.active { right: 0; opacity: 1; z-index: 999; }
+
+  .nav-item {
+    width: 100%;
+    height: auto !important;
+    min-height: 70px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    padding-top: 25px;
+    overflow: visible !important;
+    margin: 0;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+  }
+
+  .nav-links {
+    width: 100%;
+    text-align: center;
+    padding: 20px;
+    font-size: 1.2rem;
+    color: #e0e0e0;
+    height: auto !important;
+    display: block;
+  }
+
+  .dropdown-trigger {
+    color: #e0e0e0 !important;
+    font-weight: bold;
+    cursor: pointer;
+  }
+
+  .dropdown-content {
+    display: none;
+    width: 90%;
+    margin: 10px auto;
+    background-color: #0a2e52;
+    border-radius: 8px;
+    border: 1px solid rgba(255,255,255,0.1);
+    position: static !important;
+    height: auto !important;
+    overflow: visible !important;
+  }
+
+  .dropdown-content.mobile-show {
+    display: flex !important;
+    flex-direction: column;
+  }
+
+  .dropdown-content a {
+    display: block;
+    width: 100%;
+    padding: 15px 20px;
+    color: #ffffff !important;
+    font-size: 1rem;
+    text-align: left;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    border-left: 5px solid transparent;
+  }
+
+  .dropdown-content a:hover {
+    background-color: #001f3f;
+    border-left: 5px solid #800000;
+  }
+
+  .nav-links-mobile-btn {
+    display: block;
+    text-align: center;
+    width: 80%;
+    margin: 30px auto;
+    padding: 15px;
+    font-size: 1.2rem;
+    background-color: #800000;
+    color: white;
+    font-weight: bold;
+    border-radius: 8px;
+  }
+}
+@keyframes fadeIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+
+/* --- MOBİL İÇİN ÖZEL AYAR (Navbar Rengi) --- */
+@media screen and (max-width: 960px) {
+  .navbar {
+    /* Mobilde gradienti biraz daha daraltalım ki butonlar okunsun */
+    background: linear-gradient(90deg, #ffffff 0%, #ffffff 60%, #002855 90%);
+    justify-content: space-between; /* İki uca yasla */
+  }
+
+  /* Mobilde hamburger menü ikonu Lacivert alanın üstünde kalacak, Rengi BEYAZ kalsın */
+  .menu-icon {
+    color: white; 
+  }
+  
+  /* Mobilde logo yazısı (Beyaz alanın üstünde) LACİVERT olsun */
+  .navbar-logo {
+    font-size: 1.1rem; /* Telefonta puntopyu biraz küçült sığsın */
+  }
+}
+/* --- MOBİL İÇİN DÜZELTMELER (YENİ VERSİYON) --- */
+
+@media screen and (max-width: 960px) {
+  /* Logo Ayarları */
+  .navbar-logo {
+    /* Yazı boyutunu ekran genişliğine göre ayarla (4vw = ekranın %4'ü) */
+    /* Böylece ekran küçüldükçe yazı da otomatik küçülür, asla taşmaz */
+    font-size: clamp(0.8rem, 4vw, 1.2rem); 
+    
+    /* Yazıyı kesme, gizleme! */
+    white-space: normal; 
+    overflow: visible; 
+    
+    /* İkona çarpmaması için genişlik sınırı ve sağdan boşluk */
+    max-width: 80%; 
+    padding-right: 10px;
+    
+    /* Sığmazsa alt alta geçebilsin diye satır yüksekliği ayarı */
+    line-height: 1.2;
+    z-index: 1001;
+  }
+
+  /* Hamburger Menü İkonu (Sağda Sabit) */
+  .menu-icon {
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 1002;
+    
+    /* İkonun font büyüklüğü */
+    font-size: 1.8rem; 
+    color: white;
+  }
+}

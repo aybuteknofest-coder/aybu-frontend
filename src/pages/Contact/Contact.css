@@ -1,0 +1,177 @@
+/* ========================================= */
+/* İLETİŞİM SAYFASI TASARIMI               */
+/* ========================================= */
+
+.contact-container {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 50px;
+  padding: 40px 20px;
+  flex-wrap: wrap; 
+}
+
+/* Sol Taraf: İletişim Bilgileri */
+.contact-info-box {
+  flex: 1;
+  min-width: 300px;
+  background-color: #002855; 
+  color: white;
+  padding: 40px;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+}
+
+.contact-info-box h3 {
+  color: #ffd700;
+  border-bottom: 2px solid rgba(255,255,255,0.2);
+  padding-bottom: 15px;
+  margin-bottom: 20px;
+}
+
+.info-item {
+  margin-bottom: 25px;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  font-size: 1.1rem;
+}
+
+.info-icon { font-size: 1.5rem; }
+
+/* Sağ Taraf: İletişim Formu */
+.contact-form-box {
+  flex: 1.5; 
+  min-width: 280px;
+  background: white;
+  padding: 40px;
+  border-radius: 12px;
+  box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+  border: 1px solid #eee;
+}
+
+.contact-form-box h2 {
+  color: #002855;
+  margin-top: 0;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 600;
+  color: #333;
+}
+
+.form-group input, 
+.form-group select, 
+.form-group textarea {
+  width: 100%;
+  padding: 12px;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-family: inherit;
+  transition: 0.3s;
+  background-color: #f9f9f9;
+}
+
+.form-group input:focus, 
+.form-group textarea:focus {
+  border-color: #002855;
+  background-color: white;
+  outline: none;
+}
+
+/* Gönder Butonu */
+.btn-send {
+  background-color: #800000; 
+  color: white;
+  padding: 15px 30px;
+  border: none;
+  border-radius: 8px;
+  font-size: 1.1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+
+.btn-send:hover {
+  background-color: #a30000;
+  transform: translateY(-3px);
+  box-shadow: 0 5px 15px rgba(128, 0, 0, 0.2);
+}
+/* --- MOBİL İÇİN DÜZELTME --- */
+@media (max-width: 768px) {
+  .contact-container {
+    padding: 20px 10px; 
+  }
+
+  .contact-form-box {
+    padding: 20px; 
+    width: 100%;   
+  }
+  
+  .contact-info-box {
+    padding: 25px;
+    width: 100%;
+  }
+}
+/* --- BAŞARI MESAJI EKRANI --- */
+.contact-success {
+  text-align: center;
+  padding: 40px 20px;
+  animation: fadeIn 0.5s ease;
+}
+
+.success-icon {
+  font-size: 4rem;
+  margin-bottom: 20px;
+  animation: bounce 1s infinite alternate;
+}
+
+.contact-success h2 {
+  color: #27ae60; 
+  margin-bottom: 15px;
+}
+
+.contact-success p {
+  color: #555;
+  font-size: 1.1rem;
+  line-height: 1.6;
+  margin-bottom: 30px;
+}
+
+/* Ana Sayfaya Dön Butonu */
+.btn-home-return {
+  background-color: #002855; 
+  color: white;
+  border: none;
+  padding: 12px 30px;
+  border-radius: 30px;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}
+
+.btn-home-return:hover {
+  background-color: #001f3f;
+  transform: translateY(-3px);
+  box-shadow: 0 6px 15px rgba(0,0,0,0.3);
+}
+
+/* Zıplama animasyonu */
+@keyframes bounce {
+  from { transform: translateY(0); }
+  to { transform: translateY(-10px); }
+}
