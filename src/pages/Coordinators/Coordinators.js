@@ -8,15 +8,15 @@ function Coordinators() {
       name: "Ar-Ge, İnovasyon ve Proje Koordinatörlüğü",
       desc: "Teknik projelerin geliştirilmesi.",
       leader: "Onur Ersoy",
-      foto: "/resimler/KulüpLogo/ArgeLogo.png", 
-      baskanFoto: "/resimler/yonetimKurulu/OnurErsoy.png", 
+      foto: "https://pub-82d545ae25964c4782c95a159a69d6bf.r2.dev/ArgeLogo.png", 
+      baskanFoto: "https://pub-82d545ae25964c4782c95a159a69d6bf.r2.dev/OnurErsoy.png", 
     },
     {
       id: 2,
       name: "Mentörlük ve Motivasyon Koordinatörlüğü",
       desc: "Sosyal medya ve tanıtım.",
       leader: "Zeynep Çelik",
-      foto: "/resimler/KulüpLogo/MentörlükLogo.png",
+      foto: "https://pub-82d545ae25964c4782c95a159a69d6bf.r2.dev/MentorlukLogo.png",
       baskanFoto: "/resimler/zeynep.jpg",
     },
     {
@@ -24,7 +24,7 @@ function Coordinators() {
       name: "Dış İlişkiler ve Sponsorluk Koordinatörlüğü",
       desc: "Kurumsal iletişim ve fon.",
       leader: "Zeynep Çelik",
-      foto: "/resimler/KulüpLogo/SponsorlukLogo.png",
+      foto: "https://pub-82d545ae25964c4782c95a159a69d6bf.r2.dev/SponsorlukLogo.png",
       baskanFoto: "/resimler/zeynep.jpg",
     },
     {
@@ -32,7 +32,7 @@ function Coordinators() {
       name: "Etkinlik ve Organizasyon Koordinatörlüğü",
       desc: "Etkinlik planlama ve süreç yönetimi.",
       leader: "Zeynep Çelik",
-      foto: "/resimler/KulüpLogo/OrganizasyonLogo.png",
+      foto: "https://pub-82d545ae25964c4782c95a159a69d6bf.r2.dev/OrganizasyonLogo.png",
       baskanFoto: "/resimler/zeynep.jpg",
     },
     {
@@ -48,7 +48,7 @@ function Coordinators() {
       name: "Operasyonel Takip ve Web Tasarımı Koordinatörlüğü",
       desc: "Web sitesi ve dijital altyapı.",
       leader: "Zeynep Çelik",
-      foto: "/resimler/KulüpLogo/WebTasarımLogo.png",
+      foto: "https://pub-82d545ae25964c4782c95a159a69d6bf.r2.dev/WebTasar%C4%B1mLogo.png",
       baskanFoto: "/resimler/zeynep.jpg",
     },
     {
@@ -56,7 +56,7 @@ function Coordinators() {
       name: "Medya ve Tanıtım Koordinatörlüğü",
       desc: "Sosyal medya yönetimi ve tanıtım.",
       leader: "Onur Ersoy",
-      foto: "/resimler/KulüpLogo/MedyaLogo.png",
+      foto: "https://pub-82d545ae25964c4782c95a159a69d6bf.r2.dev/MedyaLogo.png",
       baskanFoto: "/resimler/onur.jpg",
     },
     {

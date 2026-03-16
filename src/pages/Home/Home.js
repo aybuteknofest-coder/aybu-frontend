@@ -52,7 +52,7 @@ function Home() {
         
 
         <img
-          src="/resimler/teknofest-logo.png"
+          src="https://pub-82d545ae25964c4782c95a159a69d6bf.r2.dev/teknofest-logo.png"
           alt="Teknofest Logo"
           className="hero-logo-big"
         />

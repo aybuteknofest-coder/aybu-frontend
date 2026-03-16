@@ -25,7 +25,11 @@ function Navbar() {
     <nav className="navbar">
       <div className="navbar-container">
         <Link to="/" className="navbar-logo" onClick={closeMobileMenu}>
-          <img src="/resimler/logo.png" alt="Logo" className="nav-logo-img" />
+          <img
+            src="https://pub-82d545ae25964c4782c95a159a69d6bf.r2.dev/logo.png"
+            alt="Logo"
+            className="nav-logo-img"
+          />
           AYBÜ Teknofest Kulübü
         </Link>
 
