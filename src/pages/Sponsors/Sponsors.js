@@ -1,28 +1,21 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import "./Sponsors.css";
 
 function Sponsors() {
-  // SPONSOR LİSTESİ (Burayı kendi sponsorlarınla dolduracaksın)
-  const sponsors = [
-    {
-      id: 1,
-      name: "AYBU SKS",
-      logo: "/resimler/logo.png",
-      website: "https://aybu.edu.tr",
-    },
-    {
-      id: 2,
-      name: "Gua Coffee Company",
-      logo: "https://pub-82d545ae25964c4782c95a159a69d6bf.r2.dev/Gua.png",
-      website: "https://guacoffeecompany.com/",
-    },
-    {
-      id: 3,
-      name: "Coffee de Madrid",
-      logo: "https://pub-82d545ae25964c4782c95a159a69d6bf.r2.dev/Madrid.png",
-      website: "https://coffeedemadrid.com.tr/",
-    },
-  ];
+  // Eski sabit listeyi uçurduk, yerine boş bir sepet koyduk
+  const [sponsors, setSponsors] = useState([]);
+
+  useEffect(() => {
+    // Backend'in kapısını çalıyoruz
+    fetch('http://127.0.0.1:8000/api/sponsors/')
+      .then((cevap) => cevap.json())
+      .then((veri) => {
+        // Eğer sayfalama (pagination) varsa results içinden al, yoksa direkt veriyi kullan
+        const asilListe = veri.results ? veri.results : veri;
+        setSponsors(asilListe);
+      })
+      .catch((hata) => console.error("Sponsorlar çekilirken hata oluştu kral:", hata));
+  }, []);
 
   return (
     <div className="page-container">
@@ -37,21 +30,23 @@ function Sponsors() {
           <div key={sponsor.id} className="sponsor-card">
             {/* Logo Alanı */}
             <div className="sponsor-logo-wrapper">
-              <img src={sponsor.logo} alt={sponsor.name} />
+              {sponsor.logo && <img src={sponsor.logo} alt={sponsor.name} />}
             </div>
 
             {/* İsim Alanı */}
             <h3>{sponsor.name}</h3>
 
-            {/* Website Butonu */}
-            <a
-              href={sponsor.website}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="btn-visit"
-            >
-              Web Sitesini Ziyaret Et
-            </a>
+            {/* Website Butonu (Sadece backend'den link girildiyse görünür) */}
+            {sponsor.website && (
+              <a
+                href={sponsor.website}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn-visit"
+              >
+                Web Sitesini Ziyaret Et
+              </a>
+            )}
           </div>
         ))}
       </div>

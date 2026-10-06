@@ -1,43 +1,47 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from 'react';
 import { Link } from "react-router-dom";
 import "./Home.css";
+import { motion } from "framer-motion";
 
 function Home() {
-  // Hangi etkinliğin seçildiğini tutan State
   const [selectedEvent, setSelectedEvent] = useState(null);
+  const [events, setEvents] = useState([]);
 
-  const events = [
-    {
-      id: 1,
-      title: "Tanışma Toplantısı",
-      date: "15 Ekim 2025",
-      time: "14:00",
-      location: "Etlik Yerleşkesi - Konferans Salonu",
-      shortDesc: "Yeni üyelerimizle tanışma çayı.",
-      fullDesc:
-        "Yeni döneme merhaba diyoruz! Kulüp yönetim ekibiyle tanışmak, sene boyunca yapacağımız projeleri dinlemek ve ekiplere dahil olmak için bu toplantıyı kaçırma. Çay ve simit ikramımız olacaktır.",
-    },
-    {
-      id: 2,
-      title: "Python ile Yapay Zeka Eğitimi",
-      date: "22 Ekim 2025",
-      time: "20:00",
-      location: "Online (Zoom)",
-      shortDesc: "Sıfırdan ileri seviyeye AI temelleri.",
-      fullDesc:
-        "Yapay zeka dünyasına giriş yapıyoruz. Python kütüphaneleri (Pandas, NumPy) ve temel makine öğrenmesi algoritmalarının işleneceği 4 haftalık eğitim serisinin ilk dersi.",
-    },
-    {
-      id: 3,
-      title: "Teknofest Proje Belirleme Çalıştayı",
-      date: "05 Kasım 2025",
-      time: "10:30",
-      location: "Mühendislik Fakültesi - B Blok",
-      shortDesc: "Yarışma takımları kuruluyor.",
-      fullDesc:
-        "Hangi kategoride yarışacaksın? İHA mı, Elektrikli Araç mı yoksa Yazılım mı? Fikirlerini getir, takım arkadaşlarını bul ve projeni belirle. Bu çalıştayda takımlar resmen kurulacak.",
-    },
-  ];
+  useEffect(() => {
+    // ⚠️ KAPIMIZ ARTIK SELİMHAN'IN DUYURULAR ODASI!
+    fetch('http://127.0.0.1:8000/api/announcements/') 
+      .then((cevap) => cevap.json())
+      .then((veri) => {
+        const asilListe = veri.results ? veri.results : veri;
+        // Sadece admin panelinden 'Aktif mi?' seçili olanları ekrana basıyoruz
+        const aktifDuyurular = asilListe.filter(duyuru => duyuru.is_active === true);
+        setEvents(aktifDuyurular); 
+      })
+      .catch((hata) => console.error("Duyurular ana sayfaya çekilemedi:", hata));
+  }, []);
+
+  // Yaklaşanlar önce (en yakın tarih üstte), geçmiş olanlar sona
+  const simdi = new Date();
+  const siraliEtkinlikler = [...events].sort((x, y) => {
+    const dx = new Date(x.event_date || 0);
+    const dy = new Date(y.event_date || 0);
+    const gx = dx < simdi;
+    const gy = dy < simdi;
+    if (gx !== gy) return gx ? 1 : -1;
+    return gx ? dy - dx : dx - dy;
+  });
+
+  // ⚙️ TARİH PARÇALAMA MOTORU 
+  const formatTarih = (isoString) => {
+    if (!isoString) return { gun: "-", ay: "-", tamTarih: "Belirtilmedi", saat: "--:--" };
+    const tarihObj = new Date(isoString);
+    const gun = tarihObj.getDate();
+    const aylar = ["OCA", "ŞUB", "MAR", "NİS", "MAY", "HAZ", "TEM", "AĞU", "EYL", "EKİ", "KAS", "ARA"];
+    const ay = aylar[tarihObj.getMonth()];
+    const tamTarih = tarihObj.toLocaleDateString('tr-TR', { day: 'numeric', month: 'long', year: 'numeric' });
+    const saat = tarihObj.toLocaleTimeString('tr-TR', { hour: '2-digit', minute: '2-digit' });
+    return { gun, ay, tamTarih, saat };
+  };
 
   return (
     <div className="home-container">
@@ -49,10 +53,8 @@ function Home() {
           style={{ animationDelay: "2s", transform: "scale(1.5)" }}
         ></div>
 
-        
-
         <img
-          src="https://pub-82d545ae25964c4782c95a159a69d6bf.r2.dev/teknofest-logo.png"
+          src="/teknofestLogo.png"
           alt="Teknofest Logo"
           className="hero-logo-big"
         />
@@ -60,14 +62,19 @@ function Home() {
         <h1 className="hero-title">AYBÜ TEKNOFEST</h1>
         <p className="hero-subtitle">Geleceği Gökyüzünde İnşa Ediyoruz</p>
 
-        <div className="hero-buttons">
+        <motion.div
+          className="hero-buttons"
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, ease: "easeOut" }}
+        >
           <Link to="/kayit-ol" className="btn-glow">
             Aramıza Katıl
           </Link>
           <Link to="/iletisim" className="btn-outline">
             İletişime Geç
           </Link>
-        </div>
+        </motion.div>
 
         {/* Dalga Efekti */}
         <div className="custom-shape-divider-bottom">
@@ -89,53 +96,116 @@ function Home() {
       <div className="main-content-area">
         {/* Vizyon & Misyon */}
         <div className="vision-mission-section">
-          <div className="vm-card">
-            <h3>👁️ Vizyonumuz</h3>
-            <p>Ulusal ve uluslararası arenada teknolojimizle ses getirmek.</p>
-          </div>
-          <div className="vm-card">
-            <h3>🚀 Misyonumuz</h3>
-            <p>
-              Üyelerimize teknik yetkinlik kazandırmak ve proje kültürünü
-              aşılamak.
+          <div className="vm-card vm-vision">
+            <div className="vm-icon">👁️</div>
+            <span className="vm-label">Nereye gidiyoruz?</span>
+            <h3>Vizyonumuz</h3>
+            <p className="vm-lead">
+              Havacılık, uzay ve teknoloji alanında üniversitemizi ulusal ve
+              uluslararası arenada gururla temsil eden, üreten ve ilham veren
+              bir topluluk olmak.
             </p>
+            <ul className="vm-list">
+              <li>TEKNOFEST ve benzeri yarışmalarda güçlü, derece hedefleyen takımlarla yer almak</li>
+              <li>Milli teknoloji hamlesine katkı sunan nitelikli mühendis adayları yetiştirmek</li>
+              <li>Üniversite, sanayi ve sektör temsilcileri arasında kalıcı bir iş birliği ağı kurmak</li>
+              <li>Üretken, girişimci ve araştırmacı bir öğrenci kültürünün öncüsü olmak</li>
+            </ul>
+          </div>
+
+          <div className="vm-card vm-mission">
+            <div className="vm-icon">🚀</div>
+            <span className="vm-label">Nasıl ilerliyoruz?</span>
+            <h3>Misyonumuz</h3>
+            <p className="vm-lead">
+              Üyelerimize teknik yetkinlik kazandırmak, proje kültürünü
+              aşılamak ve fikirlerini gerçek ürünlere dönüştürebilecekleri bir
+              ortam sunmak.
+            </p>
+            <ul className="vm-list">
+              <li>Eğitimler, atölyeler ve teknik seminerlerle bilgi ve beceri paylaşımını artırmak</li>
+              <li>Takım çalışması, planlama ve sorumluluk bilincini gerçek projelerle geliştirmek</li>
+              <li>Mentorluk ve sektör buluşmalarıyla üyelerimizin kariyerine yön vermek</li>
+              <li>Yenilikçi fikirleri destekleyip herkesin katkı verebileceği kapsayıcı bir topluluk oluşturmak</li>
+            </ul>
           </div>
         </div>
 
-        <hr className="divider" />
-
-        {/* --- ETKİNLİK ALANI (GÜNCELLENEN KISIM) --- */}
+        {/* --- ETKİNLİK ALANI --- */}
         <div className="events-section">
           {!selectedEvent ? (
             /* LİSTE GÖRÜNÜMÜ */
             <>
-              <h2 className="section-title">📅 Yaklaşan Etkinlikler</h2>
-              <div className="events-grid">
-                {events.map((event) => (
-                  <div
-                    key={event.id}
-                    className="event-card clickable"
-                    onClick={() => setSelectedEvent(event)}
-                  >
-                    <div className="event-date">
-                      <span>{event.date.split(" ")[0]}</span>
-                      <small>{event.date.split(" ")[1]}</small>
-                    </div>
-                    <div className="event-details">
-                      <h3>{event.title}</h3>
-                      <p className="event-short-desc">{event.shortDesc}</p>
-                      <span className="click-hint">Detaylar için tıkla →</span>
-                    </div>
-                  </div>
-                ))}
+              <div className="events-head">
+                <span className="events-eyebrow">Takvimimiz</span>
+                <h2 className="events-title">Yaklaşan Etkinlikler</h2>
+                <p className="events-sub">
+                  Duyuruları ve etkinliklerimizi buradan takip edebilirsin.
+                </p>
               </div>
+
+              {siraliEtkinlikler.length === 0 ? (
+                <div className="events-empty">
+                  <div className="events-empty-icon">📅</div>
+                  <h3>Şu an planlanmış bir etkinlik yok</h3>
+                  <p>
+                    Yeni etkinlikler eklendiğinde burada görünecek. Gelişmelerden
+                    haberdar olmak için bizi sosyal medyadan takip edebilirsin.
+                  </p>
+                  <Link to="/iletisim" className="events-empty-btn">
+                    Bize Ulaş
+                  </Link>
+                </div>
+              ) : (
+                <div className="events-grid">
+                  {siraliEtkinlikler.map((event) => {
+                    const tarih = formatTarih(event.event_date);
+                    const gecmis =
+                      event.event_date && new Date(event.event_date) < new Date();
+                    return (
+                      <div
+                        key={event.id}
+                        className={gecmis ? "ev-card ev-past" : "ev-card"}
+                        onClick={() => setSelectedEvent(event)}
+                      >
+                        <div className="ev-top">
+                          <div className="ev-date">
+                            <span className="ev-day">{tarih.gun}</span>
+                            <span className="ev-month">{tarih.ay}</span>
+                          </div>
+                          <span className={gecmis ? "ev-chip ev-chip-past" : "ev-chip"}>
+                            {gecmis ? "Tamamlandı" : "Yaklaşıyor"}
+                          </span>
+                        </div>
+
+                        <h3 className="ev-title">{event.title}</h3>
+
+                        <div className="ev-meta">
+                          <span>📍 {event.location || "Belirtilmedi"}</span>
+                          <span>⏰ {tarih.saat}</span>
+                        </div>
+
+                        <p className="ev-desc">
+                          {event.content
+                            ? event.content.length > 110
+                              ? event.content.substring(0, 110) + "..."
+                              : event.content
+                            : ""}
+                        </p>
+
+                        <div className="ev-more">
+                          Detayları İncele <span>&rarr;</span>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
             </>
           ) : (
-            /* DETAY GÖRÜNÜMÜ (CSS ile Düzelteceğiz) */
+            /* DETAY GÖRÜNÜMÜ (Kart Tıklanınca Açılan Yer) */
             <div className="event-detail-view">
-              
               <div className="detail-header">
-                
                 <h2 className="detail-title">{selectedEvent.title}</h2>
               </div>
 
@@ -144,31 +214,32 @@ function Home() {
                   <div className="info-box">
                     <span className="info-icon">📅</span>
                     <div>
-                        <strong>Tarih</strong>
-                        <p>{selectedEvent.date}</p>
+                      <strong>Tarih</strong>
+                      <p>{formatTarih(selectedEvent.event_date).tamTarih}</p>
                     </div>
                   </div>
                   <div className="info-box">
                     <span className="info-icon">⏰</span>
                     <div>
-                        <strong>Saat</strong>
-                        <p>{selectedEvent.time}</p>
+                      <strong>Saat</strong>
+                      <p>{formatTarih(selectedEvent.event_date).saat}</p>
                     </div>
                   </div>
                   <div className="info-box">
                     <span className="info-icon">📍</span>
                     <div>
-                        <strong>Konum</strong>
-                        <p>{selectedEvent.location}</p>
+                      <strong>Konum</strong>
+                      <p>{selectedEvent.location || "Belirtilmedi"}</p>
                     </div>
                   </div>
                 </div>
 
                 <div className="detail-desc-box">
                   <h3>Etkinlik Detayı</h3>
-                  <p>{selectedEvent.fullDesc}</p>
+                  <p>{selectedEvent.content}</p>
                 </div>
 
+                {/* Geri Dön Butonu */}
                 <button
                   className="btn-back-events"
                   onClick={() => setSelectedEvent(null)}
