@@ -26,7 +26,7 @@ function Navbar() {
       <div className="navbar-container">
         <Link to="/" className="navbar-logo" onClick={closeMobileMenu}>
           <img
-            src="https://pub-82d545ae25964c4782c95a159a69d6bf.r2.dev/logo.png"
+            src="/aybuLogo.png"
             alt="Logo"
             className="nav-logo-img"
           />
@@ -34,10 +34,16 @@ function Navbar() {
         </Link>
 
         {/* Hamburger İkonu */}
-        <div className="menu-icon" onClick={handleClick}>
-          <span style={{ color: "white", fontSize: "1.8rem" }}>
-            {click ? "✖" : "☰"}
-          </span>
+        <div
+          className={click ? "menu-icon open" : "menu-icon"}
+          onClick={handleClick}
+          role="button"
+          aria-label="Menüyü aç/kapat"
+          aria-expanded={click}
+        >
+          <span />
+          <span />
+          <span />
         </div>
 
         {/* Menü Linkleri */}

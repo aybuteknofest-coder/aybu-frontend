@@ -1,145 +1,50 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./Gallery.css";
 
 function Gallery() {
-  // 1. Hangi albümün açık olduğunu takip eden state
+  const [albums, setAlbums] = useState([]);
   const [selectedAlbum, setSelectedAlbum] = useState(null);
-
-  // --- YENİ: LIGHTBOX (Büyük Resim) STATE'LERİ ---
-  // Lightbox açık mı?
   const [lightboxOpen, setLightboxOpen] = useState(false);
-  // Şu an kaçıncı fotoğrafa bakıyoruz? (İndeks numarası)
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
-  // --- ALBÜM VERİLERİ (Senin kendi verilerin kalacak) ---
-  const albums = [
-    {
-      id: 1,
-      title: "Havelsan Teknik Gezisi",
-      date: "11 Aralık 2025",
-      cover:
-        "https://pub-82d545ae25964c4782c95a159a69d6bf.r2.dev/havelsanKapak.jpg",
-      photos: [
-        {
-          id: 101,
-          src: "https://pub-82d545ae25964c4782c95a159a69d6bf.r2.dev/havelsanKapak.jpg",
-        },
-        {
-          id: 102,
-          src: "https://pub-82d545ae25964c4782c95a159a69d6bf.r2.dev/havelsanFoto1.jpg",
-        },
-        {
-          id: 103,
-          src: "https://pub-82d545ae25964c4782c95a159a69d6bf.r2.dev/havelsanFoto2.JPG",
-        },
-        {
-          id: 104,
-          src: "https://pub-82d545ae25964c4782c95a159a69d6bf.r2.dev/havelsanFoto3.jpg",
-        },
-      ],
-    },
+  useEffect(() => {
+    // ⚠️ DİKKAT: Selimhan'ın albümler için açtığı API linki buraya gelecek
+    // (Muhtemelen /api/events/ veya /api/albums/ şeklindedir, değişirse sadece burayı güncelle)
+    fetch('http://127.0.0.1:8000/api/events/') 
+      .then((cevap) => cevap.json())
+      .then((veri) => {
+        const asilListe = veri.results ? veri.results : veri;
+        
+        // Sadece içinde fotoğraf olan etkinlikleri (albümleri) filtreleyip gösterebiliriz
+        // Eğer backend albümleri ayrı bir linkten veriyorsa filtrelemeye gerek kalmaz
+        setAlbums(asilListe);
+      })
+      .catch((hata) => console.error("Galeriler çekilirken hata oluştu kral:", hata));
+  }, []);
 
-    {
-      id: 2,
-      title: "Kulüp Tanışma Etkinliğimiz",
-      date: "30 Kasım 2025",
-      cover:
-        "https://pub-82d545ae25964c4782c95a159a69d6bf.r2.dev/bulusmaKapak.jpg",
-      photos: [
-        {
-          id: 201,
-          src: "https://pub-82d545ae25964c4782c95a159a69d6bf.r2.dev/bulusmaKapak.jpg",
-        },
-        {
-          id: 202,
-          src: "https://pub-82d545ae25964c4782c95a159a69d6bf.r2.dev/bulusmaFoto1.jpg",
-        },
-        {
-          id: 203,
-          src: "https://pub-82d545ae25964c4782c95a159a69d6bf.r2.dev/bulusmaFoto2.jpg",
-        },
-        {
-          id: 204,
-          src: "https://pub-82d545ae25964c4782c95a159a69d6bf.r2.dev/bulusmaFoto3.jpg",
-        },
-        {
-          id: 205,
-          src: "https://pub-82d545ae25964c4782c95a159a69d6bf.r2.dev/bulusmaFoto4.jpg",
-        },
-      ],
-    },
-
-    {
-      id: 2,
-      title: "Kulüp Stand Günümüz",
-      date: "16 Aralık 2025",
-      cover:
-        "https://pub-82d545ae25964c4782c95a159a69d6bf.r2.dev/standKapak.jpg",
-      photos: [
-        {
-          id: 201,
-          src: "https://pub-82d545ae25964c4782c95a159a69d6bf.r2.dev/standKapak.jpg",
-        },
-        {
-          id: 202,
-          src: "https://pub-82d545ae25964c4782c95a159a69d6bf.r2.dev/standFoto1.jpg",
-        },
-        {
-          id: 203,
-          src: "https://pub-82d545ae25964c4782c95a159a69d6bf.r2.dev/standFoto2.jpg",
-        },
-        {
-          id: 204,
-          src: "https://pub-82d545ae25964c4782c95a159a69d6bf.r2.dev/standFoto3.jpg",
-        },
-        {
-          id: 205,
-          src: "https://pub-82d545ae25964c4782c95a159a69d6bf.r2.dev/standFoto4.jpg",
-        },
-        {
-          id: 206,
-          src: "https://pub-82d545ae25964c4782c95a159a69d6bf.r2.dev/standFoto5.jpg",
-        },
-        {
-          id: 207,
-          src: "https://pub-82d545ae25964c4782c95a159a69d6bf.r2.dev/standFoto6.jpg",
-        },
-      ],
-    },
-  ];
-
-  // --- YENİ: LIGHTBOX FONKSİYONLARI ---
-
-  // Fotoğrafa tıklayınca Lightbox'ı aç
+  // --- LIGHTBOX FONKSİYONLARI ---
   const openLightbox = (index) => {
     setCurrentImageIndex(index);
     setLightboxOpen(true);
-    // Arka planın kaymasını engelle
     document.body.style.overflow = "hidden";
   };
 
-  // Kapat butonu
   const closeLightbox = () => {
     setLightboxOpen(false);
-    // Arka plan kaymasını tekrar aç
     document.body.style.overflow = "auto";
   };
 
-  // Sonraki Fotoğraf
   const nextImage = () => {
-    // Eğer sondayısa başa dön (Modülo işlemi)
     setCurrentImageIndex(
-      (prevIndex) => (prevIndex + 1) % selectedAlbum.photos.length,
+      (prevIndex) => (prevIndex + 1) % (selectedAlbum.photos?.length || 1),
     );
   };
 
-  // Önceki Fotoğraf
   const prevImage = () => {
-    // Eğer baştaysa sona dön
     setCurrentImageIndex(
       (prevIndex) =>
-        (prevIndex + selectedAlbum.photos.length - 1) %
-        selectedAlbum.photos.length,
+        (prevIndex + (selectedAlbum.photos?.length || 1) - 1) %
+        (selectedAlbum.photos?.length || 1),
     );
   };
 
@@ -149,9 +54,7 @@ function Gallery() {
       {!selectedAlbum ? (
         <>
           <h2>📸 Etkinlik Galerisi</h2>
-          <p
-            style={{ textAlign: "center", marginBottom: "30px", color: "#666" }}
-          >
+          <p style={{ textAlign: "center", marginBottom: "30px", color: "#666" }}>
             Anılarımızı biriktirdiğimiz fotoğraf arşivimiz.
           </p>
 
@@ -163,21 +66,28 @@ function Gallery() {
                 onClick={() => setSelectedAlbum(album)}
               >
                 <div className="album-cover-wrapper">
+                  {/* lazy loading eklendi! */}
                   <img
-                    src={album.cover}
+                    src={album.cover_image || album.cover || "https://via.placeholder.com/400x300?text=Kapak+Yok"}
                     alt={album.title}
                     className="album-cover"
+                    loading="lazy" 
                     onError={(e) => {
-                      e.target.src =
-                        "https://via.placeholder.com/400x300?text=Resim+Yok";
-                    }}
+  e.target.onerror = null; // Sonsuz döngüyü iptal et!
+  e.target.src = "https://via.placeholder.com/400x300?text=Resim+Yok";
+}}
                   />
                   <div className="album-badge">
-                    {album.photos.length} Fotoğraf
+                    {album.photos ? album.photos.length : 0} Fotoğraf
                   </div>
                 </div>
                 <h3>{album.title}</h3>
-                <span className="album-date">{album.date}</span>
+                {/* Tarih varsa göster */}
+                {album.start_date && (
+                  <span className="album-date">
+                    {new Date(album.start_date).toLocaleDateString('tr-TR')}
+                  </span>
+                )}
               </div>
             ))}
           </div>
@@ -194,24 +104,29 @@ function Gallery() {
             </button>
             <div>
               <h2>{selectedAlbum.title}</h2>
-              <p style={{ color: "#666", marginTop: "5px" }}>
-                {selectedAlbum.date}
-              </p>
+              {selectedAlbum.start_date && (
+                <p style={{ color: "#666", marginTop: "5px" }}>
+                  {new Date(selectedAlbum.start_date).toLocaleDateString('tr-TR')}
+                </p>
+              )}
             </div>
           </div>
 
           <div className="photos-grid">
-            {selectedAlbum.photos.map((photo, index) => (
-              <div key={photo.id} className="photo-item">
-                {/* Fotoğrafa tıklama olayını ekledik: openLightbox(index) */}
+            {selectedAlbum.photos && selectedAlbum.photos.map((fotoObj, index) => (
+              <div key={fotoObj.id || index} className="photo-item">
+                {/* Backend'den gelen kelime "photo" olduğu için fotoObj.photo kullanıldı. 
+                  lazy loading eklendi!
+                */}
                 <img
-                  src={photo.src}
+                  src={fotoObj.photo || fotoObj.image || fotoObj.src}
                   alt={`Fotoğraf ${index + 1}`}
                   onClick={() => openLightbox(index)}
+                  loading="lazy"
                   onError={(e) => {
-                    e.target.src =
-                      "https://via.placeholder.com/600x400?text=Resim+Yok";
-                  }}
+  e.target.onerror = null; // Sonsuz döngüyü iptal et!
+  e.target.src = "https://via.placeholder.com/400x300?text=Resim+Yok";
+}}
                 />
               </div>
             ))}
@@ -219,15 +134,11 @@ function Gallery() {
         </div>
       )}
 
-      {/* --- YENİ: LIGHTBOX MODALI (Sadece lightboxOpen true ise görünür) --- */}
-      {lightboxOpen && selectedAlbum && (
+      {/* --- LIGHTBOX MODALI --- */}
+      {lightboxOpen && selectedAlbum && selectedAlbum.photos && (
         <div className="lightbox-overlay" onClick={closeLightbox}>
-          {/* Kapatma Butonu (X) */}
-          <button className="lightbox-close-btn" onClick={closeLightbox}>
-            ✕
-          </button>
+          <button className="lightbox-close-btn" onClick={closeLightbox}>✕</button>
 
-          {/* Sol Ok (<) */}
           <button
             className="lightbox-nav-btn prev"
             onClick={(e) => {
@@ -238,22 +149,18 @@ function Gallery() {
             ❮
           </button>
 
-          {/* Büyük Resim Container */}
-          <div
-            className="lightbox-image-container"
-            onClick={(e) => e.stopPropagation()}
-          >
+          <div className="lightbox-image-container" onClick={(e) => e.stopPropagation()}>
             <img
-              src={selectedAlbum.photos[currentImageIndex].src}
+              src={selectedAlbum.photos[currentImageIndex].photo || selectedAlbum.photos[currentImageIndex].src}
               alt="Büyük Görünüm"
               className="lightbox-full-image"
+              loading="lazy"
             />
             <div className="lightbox-counter">
               {currentImageIndex + 1} / {selectedAlbum.photos.length}
             </div>
           </div>
 
-          {/* Sağ Ok (>) */}
           <button
             className="lightbox-nav-btn next"
             onClick={(e) => {

@@ -1,38 +1,342 @@
 /* ========================================= */
-/* KAYIT FORMU TASARIMI                    */
+/* ÜYE OL SAYFASI                          */
 /* ========================================= */
-.register-form {
-  display: flex; flex-direction: column; text-align: left;
-  max-width: 500px; margin: 0 auto;
+
+/* Sayfa başlığı */
+.reg-head {
+  max-width: 720px;
+  margin: 20px auto 36px;
+  padding: 0 20px;
+  text-align: center;
 }
-.register-form label {
-  margin-top: 15px; font-weight: 600; color: #002855; margin-bottom: 5px;
+.reg-eyebrow {
+  display: inline-block;
+  padding: 5px 14px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: #002855;
+  background: #e8eef7;
+  border-radius: 999px;
 }
-.register-form input, .register-form select {
-  padding: 12px; border: 2px solid #e0e0e0; border-radius: 8px;
-  font-size: 16px; transition: 0.3s; background-color: #f9f9f9;
+.reg-title {
+  margin: 14px 0 0;
+  font-size: 2.3rem;
+  color: #0b203e;
 }
-.register-form input:focus, .register-form select:focus {
-  border-color: #002855; outline: none; background-color: #fff;
+.reg-title::after {
+  content: "";
+  display: block;
+  width: 56px;
+  height: 4px;
+  margin: 14px auto 0;
+  border-radius: 4px;
+  background: linear-gradient(90deg, #800000, #ffb703);
 }
-.register-form button {
-  margin-top: 30px; padding: 14px; background-color: #800000;
-  color: white; border: none; border-radius: 8px; font-size: 16px;
-  font-weight: bold; cursor: pointer; transition: all 0.3s;
-  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-}
-.register-form button:hover {
-  background-color: #a30000; transform: translateY(-2px);
-  box-shadow: 0 6px 10px rgba(0,0,0,0.15);
+.reg-sub { margin: 16px 0 0; color: #667085; font-size: 1.05rem; line-height: 1.7; }
+
+/* İki sütunlu yerleşim */
+.reg-layout {
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 32px;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 20px 50px;
 }
 
-/* Başarı Mesajı */
-.success-message { text-align: center; padding: 40px 20px; animation: fadeIn 0.5s ease-in; }
-.check-icon { font-size: 60px; margin-bottom: 20px; display: inline-block; animation: bounce 1s infinite alternate; }
-.success-message h2 { color: #2a9d8f; border-bottom: none; }
-.success-message p { font-size: 1.1rem; line-height: 1.6; color: #555; margin-bottom: 30px; }
-.btn-back {
-  background-color: #002855; color: white; padding: 10px 20px;
-  border: none; border-radius: 8px; cursor: pointer; font-size: 14px;
+/* Sol: bilgi kartı */
+.reg-info {
+  position: relative;
+  flex: 1;
+  min-width: 300px;
+  overflow: hidden;
+  padding: 40px 36px;
+  text-align: left;
+  color: #fff;
+  background: linear-gradient(160deg, #1f2f48 0%, #121b2b 100%);
+  border-radius: 20px;
+  box-shadow: 0 14px 40px rgba(11, 32, 62, 0.25);
 }
-.btn-back:hover { background-color: #001f3f; }
+.reg-info::before {
+  content: "";
+  position: absolute;
+  top: -90px;
+  right: -90px;
+  width: 260px;
+  height: 260px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 209, 102, 0.18) 0%, transparent 70%);
+  pointer-events: none;
+}
+.reg-info h3 { margin: 0 0 24px; font-size: 1.5rem; color: #fff; }
+
+.reg-benefits { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 14px; }
+.reg-benefits li {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  padding: 16px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 14px;
+}
+.reg-ico {
+  flex-shrink: 0;
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+  background: rgba(255, 209, 102, 0.12);
+  border-radius: 12px;
+}
+.reg-benefits strong { display: block; margin-bottom: 3px; font-size: 1rem; color: #fff; }
+.reg-benefits p { margin: 0; font-size: 0.92rem; line-height: 1.6; color: #a9b6c8; }
+
+.reg-steps {
+  margin-top: 28px;
+  padding-top: 22px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+.reg-steps > strong { display: block; margin-bottom: 14px; font-size: 0.95rem; }
+.reg-steps ol { list-style: none; margin: 0; padding: 0; }
+.reg-steps li {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+  color: #c9d3e0;
+  font-size: 0.95rem;
+}
+.reg-steps li span {
+  flex-shrink: 0;
+  width: 26px;
+  height: 26px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #0c121d;
+  background: #ffd166;
+  border-radius: 50%;
+}
+
+/* Sağ: form kartı */
+.reg-form-box {
+  flex: 1.5;
+  min-width: 280px;
+  padding: 40px 36px;
+  text-align: left;
+  background: #fff;
+  border: 1px solid #edf0f5;
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(11, 32, 62, 0.07);
+}
+.reg-form-box h2 {
+  display: block;
+  margin: 0 0 6px;
+  padding: 0;
+  border: none;
+  font-size: 1.6rem;
+  color: #0b203e;
+}
+.reg-hint { margin: 0 0 24px; color: #8a96a8; font-size: 0.9rem; }
+
+.register-form { display: flex; flex-direction: column; gap: 18px; max-width: none; margin: 0; }
+.reg-row { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+.reg-field { min-width: 0; }
+
+.register-form label {
+  display: block;
+  margin: 0 0 8px;
+  font-weight: 600;
+  font-size: 0.92rem;
+  color: #344054;
+}
+.register-form input,
+.register-form select {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 13px 14px;
+  border: 1.5px solid #e1e6ee;
+  border-radius: 12px;
+  font-size: 1rem;
+  font-family: inherit;
+  color: #1d2939;
+  background-color: #f8fafc;
+  transition: border-color 0.25s ease, background-color 0.25s ease, box-shadow 0.25s ease;
+}
+.register-form input:focus,
+.register-form select:focus {
+  border-color: #2d68c4;
+  background-color: #fff;
+  box-shadow: 0 0 0 4px rgba(45, 104, 196, 0.12);
+  outline: none;
+}
+
+.register-form button {
+  margin-top: 8px;
+  padding: 15px;
+  color: #fff;
+  font-size: 1.05rem;
+  font-weight: 700;
+  background: linear-gradient(135deg, #c42b36, #8f1822);
+  border: none;
+  border-radius: 12px;
+  box-shadow: 0 6px 18px rgba(179, 32, 42, 0.35);
+  cursor: pointer;
+  transition: transform 0.25s ease, filter 0.25s ease, box-shadow 0.25s ease;
+}
+.register-form button:hover {
+  transform: translateY(-2px);
+  filter: brightness(1.1);
+  box-shadow: 0 10px 24px rgba(179, 32, 42, 0.45);
+}
+
+/* Başarı mesajı */
+.success-message {
+  max-width: 600px;
+  margin: 20px auto 50px;
+  padding: 44px 34px 36px;
+  text-align: center;
+  background: #fff;
+  border: 1px solid #edf0f5;
+  border-top: 5px solid #1f9d6b;
+  border-radius: 20px;
+  box-shadow: 0 14px 40px rgba(11, 32, 62, 0.1);
+  animation: successIn 0.5s ease both;
+}
+@keyframes successIn {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.success-badge {
+  width: 84px;
+  height: 84px;
+  margin: 0 auto 20px;
+  padding: 10px;
+  box-sizing: border-box;
+  background: #e5f6ec;
+  border-radius: 50%;
+  box-shadow: 0 0 0 10px rgba(31, 157, 107, 0.08);
+}
+.success-badge svg { display: block; width: 100%; height: 100%; }
+.sb-circle {
+  stroke: #1f9d6b;
+  stroke-width: 3;
+  stroke-dasharray: 151;
+  stroke-dashoffset: 151;
+  animation: sbDraw 0.6s ease 0.15s forwards;
+}
+.sb-check {
+  stroke: #1f9d6b;
+  stroke-width: 4;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 40;
+  stroke-dashoffset: 40;
+  animation: sbDraw 0.4s ease 0.65s forwards;
+}
+@keyframes sbDraw { to { stroke-dashoffset: 0; } }
+
+.success-message h2 {
+  display: block;
+  margin: 0 0 12px;
+  padding: 0;
+  font-size: 1.8rem;
+  color: #0b203e;
+  border-bottom: none;
+}
+.success-lead { margin: 0 0 26px; font-size: 1.04rem; line-height: 1.75; color: #566174; }
+
+.success-summary {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 26px;
+  padding: 18px 20px;
+  text-align: left;
+  background: #f4f6fa;
+  border-radius: 14px;
+}
+.success-summary small {
+  display: block;
+  margin-bottom: 2px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: #8a96a8;
+}
+.success-summary span { font-weight: 600; color: #0b203e; word-break: break-word; }
+
+.success-next { margin-bottom: 28px; text-align: left; }
+.success-next strong { display: block; margin-bottom: 10px; color: #0b203e; }
+.success-next ul { list-style: none; margin: 0; padding: 0; }
+.success-next li {
+  position: relative;
+  padding-left: 26px;
+  margin-bottom: 8px;
+  font-size: 0.97rem;
+  color: #566174;
+}
+.success-next li::before {
+  content: "✓";
+  position: absolute;
+  left: 0;
+  top: 1px;
+  width: 18px;
+  height: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: #fff;
+  background: #1f9d6b;
+  border-radius: 50%;
+}
+
+.success-actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; margin-bottom: 14px; }
+.btn-home, .btn-ig {
+  padding: 12px 26px;
+  font-size: 0.95rem;
+  font-weight: 700;
+  text-decoration: none;
+  border-radius: 999px;
+  transition: transform 0.25s ease, filter 0.25s ease;
+}
+.btn-home { color: #fff; background: linear-gradient(135deg, #c42b36, #8f1822); box-shadow: 0 4px 14px rgba(179, 32, 42, 0.35); }
+.btn-ig { color: #0b203e; background: #fff; border: 2px solid #0b203e; }
+.btn-home:hover, .btn-ig:hover { transform: translateY(-2px); filter: brightness(1.08); }
+
+.btn-back {
+  padding: 8px 16px;
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: #667085;
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-decoration: underline;
+}
+.btn-back:hover { color: #0b203e; }
+
+/* Mobil */
+@media (max-width: 640px) {
+  .reg-title { font-size: 1.8rem; }
+  .reg-layout { gap: 24px; padding: 0 14px 40px; }
+  .reg-info, .reg-form-box { padding: 28px 22px; }
+  /* Mobilde form önce gelsin, bilgi kartı altta kalsın */
+  .reg-form-box { order: -1; }
+  .reg-row { grid-template-columns: 1fr; gap: 18px; }
+  .success-message { padding: 34px 20px 28px; }
+  .success-actions a { flex: 1 1 100%; text-align: center; }
+}

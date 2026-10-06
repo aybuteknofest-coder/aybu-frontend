@@ -1,56 +1,25 @@
-import React from "react";
+import React, { useState, useEffect } from 'react';
 import "./Board.css";
 
 function Board() {
   const defaultPlaceholder =
     "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png";
 
-  // YÖNETİM KURULU LİSTESİ
+  // 1. Backend'den gelecek verileri tutacağımız sepetimiz (Başlangıçta boş)
+  const [boardMembers, setBoardMembers] = useState([]);
 
-  const boardMembers = [
-    {
-      id: 1,
-      name: "Ömer Faruk Çakıllı",
-      role: "Kulüp Başkanı",
-      img: "https://pub-82d545ae25964c4782c95a159a69d6bf.r2.dev/OmerFaruk.png",
-    },
-    {
-      id: 2,
-      name: "Zübeyir Enes Tiryaki",
-      role: "Kulüp Başkan Yardımcısı",
-      img: "https://pub-82d545ae25964c4782c95a159a69d6bf.r2.dev/EnesTiryaki.png",
-    },
-    {
-      id: 3,
-      name: "Onur Ersoy",
-      role: "Ar-Ge, İnovasyon ve Proje Koordinatörlüğü Başkanı",
-      img: "https://pub-82d545ae25964c4782c95a159a69d6bf.r2.dev/OnurErsoy.png",
-    },
-    {
-      id: 4,
-      name: "Yasir Yener",
-      role: "Ar-Ge, İnovasyon ve Proje Koordinatörlüğü Başkan Yardımcısı",
-      img: "",
-    },
-    {
-      id: 5,
-      name: "Berkan Güdümcüoğlu",
-      role: "Kulüp Üyesi",
-      img: "https://pub-82d545ae25964c4782c95a159a69d6bf.r2.dev/Berkan.png",
-    },
-    {
-      id: 5,
-      name: "Selimhan Altınpınar",
-      role: "Operasyonel Takip ve Web Tasarımı Koordinatörlüğü Başkanı",
-      img: "https://pub-82d545ae25964c4782c95a159a69d6bf.r2.dev/Selimhan.png",
-    },
-    {
-      id: 5,
-      name: "Serhat Erdoğan",
-      role: "Operasyonel Takip ve Web Tasarımı Koordinatörlüğü Başkan Yardımcısı",
-      img: "https://pub-82d545ae25964c4782c95a159a69d6bf.r2.dev/Serhat.png",
-    },
-  ];
+  // 2. Sayfa açıldığı an kuryeyi (fetch) yola çıkarıyoruz
+  useEffect(() => {
+    fetch('http://127.0.0.1:8000/api/board-members/') 
+      .then((cevap) => cevap.json())
+      .then((veri) => {
+
+        const asilListe = veri.results ? veri.results : veri;
+        
+        setBoardMembers(asilListe); 
+      })
+      .catch((hata) => console.error("Backend'e ulaşılamadı kral:", hata));
+  }, []);; // Sadece sayfa açıldığında 1 kere çalışır
 
   return (
     <div className="page-container">
@@ -62,22 +31,26 @@ function Board() {
 
       <div className="board-grid">
         {boardMembers.map((member) => (
+          // ⚠️ KRİTİK NOKTA 2: Backend'deki id kısmı farklıysa (örn: member.uye_id) burayı güncelle
           <div key={member.id} className="board-card">
+            
             {/* Fotoğraf Alanı */}
             <div className="board-img-wrapper">
               <img
-                src={member.img || defaultPlaceholder} // Resim yoksa direkt varsayılanı kullan
-                alt={member.name}
+                // ⚠️ KRİTİK NOKTA 3: Backend'de fotoğraf linkinin adı 'img' mi, 'image' mi yoksa 'fotograf' mı?
+                src={member.photo || defaultPlaceholder} 
+                alt={member.full_name}
                 className="board-member-img"
-                // Eğer link kırık çıkarsa (404), varsayılan görseli devreye sok
                 onError={(e) => {
                   e.target.src = defaultPlaceholder;
                 }}
               />
             </div>
 
-            <h3>{member.name}</h3>
-            <span className="role-badge">{member.role}</span>
+            {/* ⚠️ KRİTİK NOKTA 4: Backend'de bu alanların isimleri (name, role) neyse ona göre değiştir */}
+            <h3>{member.full_name  }</h3>
+            <span className="role-badge">{member.title}</span>
+            
           </div>
         ))}
       </div>
