@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./Gallery.css";
+import API_URL from '../../config';
 
 function Gallery() {
   const [albums, setAlbums] = useState([]);
@@ -10,7 +11,7 @@ function Gallery() {
   useEffect(() => {
     // ⚠️ DİKKAT: Selimhan'ın albümler için açtığı API linki buraya gelecek
     // (Muhtemelen /api/events/ veya /api/albums/ şeklindedir, değişirse sadece burayı güncelle)
-    fetch('http://127.0.0.1:8000/api/events/') 
+    fetch(`${API_URL}/api/events/`) 
       .then((cevap) => cevap.json())
       .then((veri) => {
         const asilListe = veri.results ? veri.results : veri;

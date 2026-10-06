@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import "./Board.css";
+import API_URL from '../../config';
 
 function Board() {
   const defaultPlaceholder =
@@ -10,7 +11,7 @@ function Board() {
 
   // 2. Sayfa açıldığı an kuryeyi (fetch) yola çıkarıyoruz
   useEffect(() => {
-    fetch('http://127.0.0.1:8000/api/board-members/') 
+    fetch(`${API_URL}/api/board-members/`) 
       .then((cevap) => cevap.json())
       .then((veri) => {
 
