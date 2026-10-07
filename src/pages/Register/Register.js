@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import './Register.css';
+import API_URL from '../../config';
 
 function Register() {
   const [formGonderildi, setFormGonderildi] = useState(false);
@@ -35,7 +36,7 @@ function Register() {
     };
 
     try {
-      const response = await fetch('http://127.0.0.1:8000/api/uye-basvurulari/', {
+      const response = await fetch(`${API_URL}/api/uye-basvurulari/`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

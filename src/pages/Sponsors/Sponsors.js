@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./Sponsors.css";
+import API_URL from '../../config';
 
 function Sponsors() {
   // Eski sabit listeyi uçurduk, yerine boş bir sepet koyduk
@@ -7,7 +8,7 @@ function Sponsors() {
 
   useEffect(() => {
     // Backend'in kapısını çalıyoruz
-    fetch('http://127.0.0.1:8000/api/sponsors/')
+    fetch(`${API_URL}/api/sponsors/`)
       .then((cevap) => cevap.json())
       .then((veri) => {
         // Eğer sayfalama (pagination) varsa results içinden al, yoksa direkt veriyi kullan

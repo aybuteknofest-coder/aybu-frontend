@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from "react-router-dom";
 import "./Home.css";
 import { motion } from "framer-motion";
+import API_URL from '../../config';
 
 function Home() {
   const [selectedEvent, setSelectedEvent] = useState(null);
@@ -9,7 +10,7 @@ function Home() {
 
   useEffect(() => {
     // ⚠️ KAPIMIZ ARTIK SELİMHAN'IN DUYURULAR ODASI!
-    fetch('http://127.0.0.1:8000/api/announcements/') 
+    fetch(`${API_URL}/api/announcements/`) 
       .then((cevap) => cevap.json())
       .then((veri) => {
         const asilListe = veri.results ? veri.results : veri;
